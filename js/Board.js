@@ -1,5 +1,11 @@
 //Create the Position and Board class
 
+class Position {
+  constructor(row, column) {
+    this.row = row;
+    this.column = column;
+  }
+}
 /*
 Position class definition
 - constructor
@@ -9,6 +15,46 @@ Position class definition
 Example use:
 const position = new Position(0, 0); // row 0, column 0
 */
+
+class Board {
+  constructor(rows, columns) {
+    this.rows = [];
+    for (let i = 0; i < rows; i++) {
+      let row = [];
+      for (let j = 0; j < columns; j++) {
+        if (i === 0 || i === rows - 1 || j === 0 || j === columns - 1) {
+          row.push(new Wall());
+        } else {
+          row.push(new Grass());
+        }
+      }
+      this.rows.push(row);
+    }
+    this.root = document.getElementById('board');
+  }
+  render(root) {
+    this.root = root;
+    for (let i = 0; i < this.rows.length; i++) {
+      let rowdiv = document.createElement('div');
+      rowdiv.classList.add('row');
+      for (let j = 0; j < this.rows[i].length; j++) {
+        rowdiv.appendChild(this.rows[i][j].element);
+      }
+      this.root.appendChild(rowdiv);
+    }
+  }
+
+  setEntity(entity, position) {
+    const oldChild = this.root.childNodes[position.row].childNodes[
+      position.column
+    ];
+    this.root.childNodes[position.row].replaceChild(entity.element, oldChild);
+    this.rows[position.row][position.column] = entity;
+  }
+  getEntity(position) {
+    return board.rows[position.row][position.column];
+  }
+}
 
 /*
 Board class definition

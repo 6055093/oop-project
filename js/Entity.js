@@ -13,6 +13,23 @@ Entity class definition
 Example use: not used by itself. 
 */
 
+class Entity {
+  constructor(src) {
+    const img = document.createElement('img');
+    img.src = src;
+    this.element = img;
+  }
+  setImg(src) {
+    this.element.src = src;
+  }
+}
+
+class Wall extends Entity {
+  constructor() {
+    super('./imgs/environment/wall.png');
+  }
+}
+
 /*
 Wall class definition. A Wall is an Entity
 - constructor
@@ -22,6 +39,16 @@ Example use:
 new Wall()
 */
 
+class Grass extends Entity {
+  constructor() {
+    let grassEntity = [
+      './imgs/environment/grass1.png',
+      './imgs/environment/grass2.png',
+      './imgs/environment/grass3.png',
+    ];
+    super(grassEntity[Math.floor(Math.random() * 3) + 0]);
+  }
+}
 /*
 Grass class definition. Grass is an Entity
 - constructor
@@ -30,7 +57,13 @@ Grass class definition. Grass is an Entity
 Example use:
 new Grass()
 */
-
+class Gold extends Entity {
+  constructor(value) {
+    super('./imgs/gold.gif');
+    this.value = value;
+    this.sound = './sounds/gold.wav';
+  }
+}
 /*
 Gold class definition. Gold is an Entity
 - constructor
@@ -41,6 +74,23 @@ Example use:
 new Gold()
 */
 
+class Dungeon extends Entity {
+  constructor(isOpen, hasPrincess, gold, items) {
+    if (isOpen) {
+      super('./imgs/dungeon/open.png');
+    } else {
+      super('./imgs/dungeon/closed.png');
+    }
+    this.isOpen = isOpen;
+    this.hasPrincess = hasPrincess;
+    this.gold = gold;
+    this.items = items;
+  }
+  open() {
+    this.isOpen = true;
+    this.element.src = './imgs/dungeon/open.png';
+  }
+}
 /*
 Dungeon class definition. Gold is an Entity
 - constructor
@@ -56,7 +106,12 @@ Dungeon class definition. Gold is an Entity
 Example use:
 new Dungeon(true, false, 30, [new Potion(2), new Bomb(2)]);
 */
-
+class Tradesman extends Entity {
+  constructor(items) {
+    super('./imgs/tradesman.gif');
+    this.items = items;
+  }
+}
 /*
 Tradesman class definition. A Tradesman is an Entity
 - constructor

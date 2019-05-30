@@ -1,5 +1,38 @@
 //Create the Creature and Monster class
 
+class Creature extends Entity {
+  constructor(name, img, level, items, gold) {
+    super(img);
+    this.name = name;
+    // this.img = img;
+    this.level = level;
+    this.items = items;
+    this.gold = gold;
+    this.hp = level * 100;
+    this.strength = level * 10;
+    this.attackSpeed = 3000 / level;
+  }
+  getMaxHp() {
+    return this.level * 100;
+  }
+  hit(val) {
+    this.hp = this.hp - val;
+    if (this.hp <= 0) {
+      this.hp = 0;
+    }
+  }
+  attack(entity) {
+    this.attacking = false;
+    if (this.attacking === false) {
+      entity.hit(this.strength);
+      this.attacking = true;
+    }
+    setTimeout(() => {
+      return (this.attacking = false);
+    }, this.attackSpeed);
+  }
+}
+
 /*
 The Creature class is an Entity. It has the following properties (not including inherited properties):
 - constructor
@@ -24,6 +57,19 @@ The Creature class is an Entity. It has the following properties (not including 
   - sets an attack timeout that expires after attackSpeed. While the timeout is active, this method immediately returns false, else returns true.
 Example use: not used by itself. 
 */
+
+class Monster extends Creature {
+  constructor(name, level, items, gold) {
+    const imgSrc = './imgs/monsters/' + name.split(' ').join('') + '.gif';
+    super(name, imgSrc, level, items, gold);
+  }
+  attack(entity) {
+    super.attack(entity);
+    if (this.attacking) {
+      playSound('mattack');
+    }
+  }
+}
 
 /*
 The Monster class is a Creature. It has the following properties (bot including inherited properties):
